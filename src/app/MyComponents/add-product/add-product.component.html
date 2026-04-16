@@ -1,0 +1,12 @@
+<div class="container my-3">
+    <h4>Add New Product</h4>
+    <form (ngSubmit)="addNewProd()">
+       <div class="form-group">
+         <label for="prod">New product</label>
+         <input type="text" [(ngModel)]="newProd" class="form-control" id="prod" name="prod">
+       
+      <!-- <br>
+       <button type="submit" class="btn btn-sm btn-primary">Add Product</button> -->
+      </div>
+     </form>
+   </div>

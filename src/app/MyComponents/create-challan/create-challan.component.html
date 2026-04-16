@@ -1,0 +1,153 @@
+<!-- <div class="container my-3  "> -->
+<!-- <div class="container my-3" id="section">
+    <form class="row g-4">
+        <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Customer Name</label>
+            <input type="text" class="form-control" [(ngModel)]="custName" [ngModelOptions]="{standalone: true}"
+                id="validationDefault02" placeholder="Enter Customer Name" name="customerName" required>
+        </div>
+    </form>
+    <form class="row g-4">
+        <div class="col-md-3">
+            <label for="validationDefault01" class="form-label">Product</label>
+            <select class="form-select" [(ngModel)]="product" [ngModelOptions]="{standalone: true}"
+                id="validationDefault04" required>
+                <option selected disabled value="">Select Product...</option>
+                <option>Tiger Black</option>
+                <option>Steel Gray</option>
+                <option>Blue</option>
+                <option>...</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="validationDefault02" class="form-label">Quantity</label>
+            <input type="text" [(ngModel)]="quantity" [ngModelOptions]="{standalone: true}" class="form-control"
+                id="validationDefault02" placeholder="Enter Quantity in sq. ft." name="quantity" required>
+        </div>
+        <div class="col-md-2">
+            <label for="validationDefaultUsername" class="form-label">Rate</label>
+            <div class="input-group">
+                <input type="text" [(ngModel)]="rate" [ngModelOptions]="{standalone: true}" class="form-control"
+                    id="validationDefaultUsername" placeholder="Enter Rate in Rs/sq.ft." required>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label></label><br>
+             <button class="btn btn-primary" (click)="calcAmount()" type="submit">CalcAmount</button>
+        </div>
+        <div class="col-md-2">
+            <label for="validationDefaultUsername" class="form-label">Amount</label> <br>
+            <label class="form-label">{{amount}}</label>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">GST</label> <br>
+            <input type="text" [(ngModel)]="gst" [ngModelOptions]="{standalone: true}" class="form-control"
+                id="validationDefault02" placeholder="Enter GST%" name="quantity" required>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Discount</label> <br>
+            <input type="text" [(ngModel)]="discount" [ngModelOptions]="{standalone: true}" class="form-control"
+                id="validationDefault02" placeholder="Enter Discount Amount" name="quantity" required>
+        </div>
+        <div class="col-md-2">
+            <label></label><br>
+            <button class="btn btn-primary" (click)="calcFinalAmount()" type="submit">Final Amount</button>
+        </div>
+        <div class="col-md-2">
+            <label for="validationDefaultUsername" class="form-label">Final Payable Amount</label> <br>
+            <label class="form-label">{{finalAmount}}</label>
+        </div>
+
+    </form>
+
+    <br /><br /><button printTitle="Invoice NO. {{invoiceNumber}}" printSectionId="section" ngxPrint
+        class="btn btn-primary">Print Invoice</button>
+
+</div> -->
+
+<div class="container my-3" id="sectionId">
+    <form class="row g-4">
+        <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Customer Name</label>
+            <input type="text" class="form-control" [(ngModel)]="custName" [ngModelOptions]="{standalone: true}"
+                id="validationDefault02" placeholder="Enter Customer Name" name="customerName" required><br />
+        </div>
+    </form>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Amount</th>
+                <th><button class="btn btn-primary" (click)="addNewRow()">+</button> &nbsp;
+                    <button class="btn btn-primary" (click)="removeRow()">-</button></th>
+            
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of rows; let i = index">
+                <td><strong>{{i+1}}</strong></td>
+                <td>
+                    <!-- <select class="form-select" [(ngModel)]="product[i]" [ngModelOptions]="{standalone: true}" required>
+                        <option>Tiger Black</option>
+                        <option>Steel Gray</option>
+                        <option>Blue</option>
+                    </select> -->
+                    <select>
+                        <option *ngFor="let prod of products; index as i">{{prod.productName}}</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" [(ngModel)]="quantity[i]" [ngModelOptions]="{standalone: true}"
+                        class="form-control" id="validationDefault02" placeholder="Enter Quantity in sq. ft."
+                        name="quantity" required>
+                </td>
+                <td>
+                    <input type="text" [(ngModel)]="rate[i]" [ngModelOptions]="{standalone: true}" class="form-control"
+                        id="validationDefaultUsername" placeholder="Enter Rate in Rs/sq.ft."
+                        (ngModelChange)="calcAmount(i)" required>
+                </td>
+                <td>
+                    <label class="form-label">{{amount[i]}}</label>
+                </td>
+                
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>GST</strong></td>
+                <td><input type="text" [(ngModel)]="gst" [ngModelOptions]="{standalone: true}"
+                        (ngModelChange)="calcGSTAmount()" class="form-control" id="validationDefault02"
+                        placeholder="Enter GST%" name="quantity" required></td>
+                <td>+ {{gstAmount}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>Discount</strong></td>
+                <td><input type="text" [(ngModel)]="discount" [ngModelOptions]="{standalone: true}" class="form-control"
+                        placeholder="Enter Discount Amount" name="quantity" required></td>
+                        <td>- {{discount}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button class="btn btn-primary" (click)="calcFinalAmount()" type="submit">Final Amount</button></td>
+                <td><strong>{{finalAmount}}</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <br /><br />
+    <button #print printTitle="Invoice NO. {{invoiceNumber}}" printSectionId="sectionId" ngxPrint
+    class="btn btn-primary" [useExistingCss]="true" >Print Invoice</button>
+</div>
+
+
